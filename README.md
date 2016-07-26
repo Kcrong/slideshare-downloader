@@ -1,4 +1,4 @@
-# slideshare.net downloader without login
+# slideshare.net downloader
 
 ## urls
 - `/`
