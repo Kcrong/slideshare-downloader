@@ -12,8 +12,6 @@ from flask_script import Manager
 from flask_sqlalchemy import SQLAlchemy, connection_stack
 from sqlalchemy import event
 
-from project.downloader.tasks import slide2img
-
 BASE_DIR = os_join(dirname(dirname(abspath(__file__))))
 TEMPLATES_DIR = os_join(BASE_DIR, 'templates')
 MEDIA_DIR = os_join(BASE_DIR, 'media')
@@ -21,6 +19,8 @@ STATIC_DIR = os_join(BASE_DIR, 'static')
 
 app = Flask(__name__, template_folder=TEMPLATES_DIR)
 db = SQLAlchemy()
+
+
 
 
 def create_app():
@@ -48,6 +48,7 @@ migrate = Migrate(app, db)
 app.config.from_pyfile('../config.py')  # for CELERY_BROKER_URL
 celery = Celery(app.name, backend='amqp', broker=app.config['CELERY_BROKER_URL'])
 
+from project.downloader.tasks import slide2img
 celery.task(bind=True)(slide2img)
 
 
